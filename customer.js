@@ -1,11 +1,4 @@
-require('dotenv').config();
-const pg = require('pg-promise')();
-const dbConfig = {
-    host: process.env.DB_HOST,
-    username: process.env.DB_USER,
-    database: process.env.DB_NAME
-}
-
+const db = require('./db')
 
 
 class Customer{
@@ -14,10 +7,9 @@ class Customer{
         this.email = email;
         this.address = addr;
         this.password = password;
-        this.db = pg(dbConfig);
     }
     save(){
-        return this.db.query(`
+        return db.query(`
             insert into customers
             (name, email, address, password)
             values
@@ -25,7 +17,7 @@ class Customer{
         `)
     }
     get(id) {
-        return this.db.one(`
+        return db.one(`
             select name, email, address from customers where customer_id=${id};        
         `).then( (result) => {
             this.name = result.name;

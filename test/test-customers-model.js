@@ -1,8 +1,10 @@
 const expect = require('chai').expect;
 const Customer = require('../customer')
 
+
 describe('Customers', () =>{
     it('should be able to save the database', (done) => {
+        let data = ['me', 'me@me.com', '123 me st', 'mememe']
         let myCustomer = new Customer('me', 'me@me.com', '123 me st', 'mememe');
         myCustomer
             .save()
