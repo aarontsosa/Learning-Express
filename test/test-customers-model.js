@@ -51,8 +51,26 @@ describe('Customers', () =>{
     })
 
     it('should update a user and retain the new values', (done) => {
-
-
-        done()
-    })
-});
+        let data = ['ronald mcdonald', 'r@micky-dees.com', 'everywhere', 'yes']
+        let c1 = new Customer(...data);
+        let newName = "Aaron"
+        c1.save()
+            .then((result) => {
+                c1.name = newName;
+                c1.save()
+                    .then((resultFromSave1) => {
+                        c1.name = newName;
+                        c1.save()
+                            .then((resultFromSave2) => {
+                                let customer_id = result.customer_id
+                                Customer.get(customer_id)
+                                .then((c2) => {
+                                    expect(c2.name).to.equal(newName)
+                                    done()
+                                })
+                                .catch(console.log)
+                            })
+                        })
+                    })       
+                })
+            });
